@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Sensibilidade FF</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  color:white;
+  text-align:center;
+  background: linear-gradient(-45deg, #000000, #1a0000, #330000, #000000);
+  background-size: 400% 400%;
+  animation: fundo 8s infinite;
+}
+
+@keyframes fundo{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.caixa{
+  margin:40px auto;
+  width:320px;
+  padding:20px;
+  border-radius:15px;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+}
+
+input, select, button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+}
+
+.botao-vermelho{
+  background:#ff0000;
+  color:white;
+  font-weight:bold;
+}
+
+.botao-verde{
+  background:#22c55e;
+  color:black;
+  font-weight:bold;
+}
+
+.resultado{
+  margin-top:20px;
+  padding:15px;
+  background:#111;
+  border-radius:10px;
+  display:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="caixa">
+<h2>🔒 Acesso Restrito</h2>
+
+<input type="password" id="senha" placeholder="Digite a senha">
+
+<button onclick="verificar()" class="botao-vermelho">
+Entrar
+</button>
+
+<p id="erro" style="color:red;"></p>
+</div>
+
+<!-- SITE -->
+<div id="site" style="display:none;">
+
+<div class="caixa">
+<h2>🔥 GERADOR DE SENSI</h2>
+
+<select id="marca" onchange="carregarModelos()">
+<option value="">Escolha a marca</option>
+<option value="xiaomi">Xiaomi</option>
+<option value="samsung">Samsung</option>
+<option value="iphone">iPhone</option>
+</select>
+
+<select id="modelo">
+<option>Escolha o modelo</option>
+</select>
+
+<select id="estilo">
+<option value="rush">Rush</option>
+<option value="hs">Headshot</option>
+<option value="sniper">Sniper</option>
+</select>
+
+<button onclick="injetar()" class="botao-vermelho">
+GERAR SENSIBILIDADE
+</button>
+
+<div id="carregando">⏳ Gerando...</div>
+
+<div class="resultado" id="resultado"></div>
+
+<button onclick="copiar()" class="botao-verde">
+Copiar Sensibilidade
+</button>
+
+</div>
+
+<p style="margin-top:20px; font-size:13px; color:#aaa;">
+🚀 Criado por <b>@Keven._digital</b>
+</p>
+
+</div>
+
+<script>
+
+let textoFinal = "";
+
+// SENHA (já com 7503)
+function verificar(){
+let senha = document.getElementById("senha").value;
+
+if(senha === "7503"){
+document.getElementById("login").style.display = "none";
+document.getElementById("site").style.display = "block";
+} else {
+document.getElementById("erro").innerText = "Senha errada!";
+}
+}
+
+// MODELOS
+function carregarModelos(){
+let marca = document.getElementById("marca").value;
+let modelo = document.getElementById("modelo");
+
+modelo.innerHTML = "";
+
+if(marca==="xiaomi"){
+modelo.innerHTML += "<option>Redmi Note 12</option>";
+modelo.innerHTML += "<option>Xiaomi 12 Pro</option>";
+}
+
+if(marca==="samsung"){
+modelo.innerHTML += "<option>Galaxy A50</option>";
+modelo.innerHTML += "<option>Galaxy S21</option>";
+}
+
+if(marca==="iphone"){
+modelo.innerHTML += "<option>iPhone 11</option>";
+modelo.innerHTML += "<option>iPhone 13</option>";
+}
+}
+
+// ANIMAÇÃO
+function injetar(){
+document.getElementById("resultado").style.display="none";
+
+setTimeout(()=>{
+gerar();
+document.getElementById("resultado").style.display="block";
+},1500);
+}
+
+// GERAR
+function gerar(){
+
+let estilo = document.getElementById("estilo").value;
+let marca = document.getElementById("marca").value;
+
+let ajuste = 0;
+
+if(marca==="xiaomi") ajuste = 5;
+if(marca==="iphone") ajuste = -5;
+
+let geral = rand(70,100)+ajuste;
+let red = rand(70,100)+ajuste;
+let x2 = rand(50,90)+ajuste;
+let x4 = rand(40,80)+ajuste;
+let awm = rand(20,60)+ajuste;
+let camera = rand(70,100);
+
+textoFinal =
+"Geral: "+geral+"\n"+
+"Red Dot: "+red+"\n"+
+"2x: "+x2+"\n"+
+"4x: "+x4+"\n"+
+"AWM: "+awm+"\n"+
+"Câmera: "+camera;
+
+document.getElementById("resultado").innerHTML =
+"🔥 Geral: "+geral+"<br>"+
+"🎯 Red Dot: "+red+"<br>"+
+"🔍 2x: "+x2+"<br>"+
+"🔭 4x: "+x4+"<br>"+
+"🎯 AWM: "+awm+"<br>"+
+"📷 Câmera: "+camera;
+
+}
+
+// COPIAR
+function copiar(){
+if(textoFinal===""){
+alert("Gere primeiro!");
+return;
+}
+navigator.clipboard.writeText(textoFinal);
+alert("Copiado!");
+}
+
+// RANDOM
+function rand(min,max){
+return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+</script>
+
+</body>
+</html>
